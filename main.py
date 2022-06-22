@@ -47,13 +47,16 @@ def update():
     if url.status_code == 200:
         os.system("cls")
         print(succes+" Checking for updates...")
-        if version != url.text:
+        if version != url.text.split("\n")[0]:
             print(succes+" Update found! New version: "+url.text + "You are running version: "+version)
             print("Do you want to update? (y/n)")
             cmd = input(inputpre+" ").lower()
             if cmd == "y":
                 os.system("cls")
                 print(succes+" Downloading...")
+                print(succes+" Cleaning...")
+                os.system("rmdir /S /Q C:\STK\\bin\STKUP")
+                os.system("del /f /s /q C:\STK\\bin\STKUP")
                 os.system("git clone https://github.com/IStuniI/STK.git C:\STK\\bin\STKUP")
                 os.system("cls")
                 print(succes+" Downloaded! Cloning...")
