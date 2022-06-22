@@ -61,16 +61,17 @@ def update():
                 os.system("cls")
                 print(succes+" Downloaded! Cloning...")
                 os.system("rmdir /S /Q C:\STK\\bin\STK")
-                os.system("del /f /s /q C:\STK\\bin\STK")
-                #os.system("mkdir C:\STK\\bin\STK\\asset")
+                os.system("del /f /s /q C:\STK\\bin\STK") 
+                os.system("mkdir C:\STK\\bin\STK\\asset")
                 file_names = os.listdir("C:\STK\\bin\STKUP")
                 for file_name in file_names:
                     if file_name != ".git":
-                        if not file_name == "config.stk" or file_name == "version.stk" or file_name == "help.stk":
-                            shutil.move("C:\STK\\bin\STKUP\\"+file_name, "C:\STK\\bin\STK")
-                        else:
-                            shutil.copy("C:\STK\\bin\STKUP\\"+file_name, "C:\STK\\bin\STK\\asset")
-                        print(succes+" Cloned "+file_name)
+                        if not file_name == "asset":
+                            if not file_name == "config.stk" or file_name == "version.stk" or file_name == "help.stk":
+                                shutil.move("C:\STK\\bin\STKUP\\"+file_name, "C:\STK\\bin\STK")
+                            else:
+                                shutil.copy("C:\STK\\bin\STKUP\\"+file_name, "C:\STK\\bin\STK\\asset")
+                            print(succes+" Cloned "+file_name)
                 os.system("cls")
                 print(succes+" Cloned! Cleaning up...")
                 os.system("del /f /s /q C:\STK\\bin\STKUP")
