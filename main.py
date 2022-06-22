@@ -1,4 +1,3 @@
-from fileinput import filename
 import os
 import base64
 import sys
@@ -62,11 +61,10 @@ def update():
                 for file_name in file_names:
                     #overwrite the old files
                     if file_name != "STK":
-                        if filename != ".git":
-                            shutil.move("C:\STK\\bin\STKUP\\"+file_name, "C:\STK\\bin\\STK\\"+file_name)
+                        shutil.move("C:\STK\\bin\STKUP\\"+file_name, "C:\STK\\bin\\STK\\"+file_name)
                 os.system("cls")
                 print(succes+" Successfully updated! Restarting...")
-                os.system(f"python3 {path}\\main.py") 
+                os.system(f"python3 {path}\\main.py")
             elif cmd == "n":
                 print(succes+" Not updating...")
         else:
