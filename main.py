@@ -21,7 +21,7 @@ for pkg in packages:
     os.system("cls")
 print(path)
 os.system("cls")
-version = open(path+"\\asset\\version.stk", "r").read()
+version = open(path+"\\asset\\version.stk", "r").read().split("\n")[0]
 
 
 #other imports
@@ -57,11 +57,12 @@ def update():
                 os.system("git clone https://github.com/IStuniI/STK.git C:\STK\\bin\STKUP")
                 os.system("cls")
                 print(succes+" Downloaded! Cloning...")
+                #delete old files
+                os.system("del /f /s /q C:\STK\\bin\STK")
                 file_names = os.listdir("C:\STK\\bin\STKUP")
                 for file_name in file_names:
-                    #overwrite the old files
-                    if file_name != "STK":
-                        shutil.move("C:\STK\\bin\STKUP\\"+file_name, "C:\STK\\bin\\STK\\"+file_name)
+                    shutil.move("C:\STK\\bin\STKUP\\"+file_name, "C:\STK\\bin\STK")
+                    print(succes+" Cloned "+file_name)
                 os.system("cls")
                 print(succes+" Successfully updated! Restarting...")
                 os.system(f"python3 {path}\\main.py")
