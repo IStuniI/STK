@@ -1,6 +1,7 @@
 import os
 import base64
-
+import sys
+from importlib_metadata import version
 import requests
 
 
@@ -10,11 +11,10 @@ def install_pkg(pkg):
     os.system("pip3 install " + pkg)
 
 #VARS
-version = "0.0.1 ALPHA"
 author = "Stein#7722"
 update_url = ""
 #BOOT
-path = os.getcwd()
+path = "C:\STK\\bin\STK"
 packages = ["colorama"]
 print("Installing")
 #   install the packages
@@ -23,6 +23,8 @@ for pkg in packages:
     os.system("cls")
 print(path)
 os.system("cls")
+version = open(path+"\\Bin\\version.stk", "r").read()
+
 
 #other imports
 try:
@@ -40,7 +42,7 @@ inputpre = Fore.CYAN+"["+Fore.GREEN+"$"+Fore.CYAN+"]"+Fore.RESET+"|>>>"
 
 
 #built-in commands
- 
+
 
 def update():
     url = requests.get
@@ -59,19 +61,32 @@ def help():
         return result
     #xcept Exception as e:
         #print(error+" Cant find help.stk | "+path+"\\Bin\\help.stk  |" + str(e))
-
+copyright = '''© 2022 Stein#7722 - All Rights Reserved.'''
+credits = ["Founder/Programmer: Stein#7722"]
 #MAIN
 def main():
+    os.system("mode con cols=100 lines=25")
     os.system("title STEINS TOOLKIT [STK]")
-    print(Back.LIGHTRED_EX+Fore.BLACK+"STEIN'S TOOLKIT"+Back.RESET+Fore.CYAN+" v"+version+Fore.RESET+ " - "+Fore.LIGHTMAGENTA_EX+author+Fore.RESET+" (C) STK STEIN ALL RIGHTS RESERVED | " + path)
+    print(Back.LIGHTRED_EX+Fore.BLACK+"STEIN'S TOOLKIT"+Back.RESET+Fore.CYAN+" v"+version+Fore.RESET+ " - "+Fore.LIGHTMAGENTA_EX+author+Fore.LIGHTYELLOW_EX+" (C) STK STEIN ALL RIGHTS RESERVED | "+Fore.RESET + path)
     print("Type 'help','copyright' or 'credits' for more information! 'exit' to exit the program")
     while True:
+        print("\n")
         cmd = input(inputpre+" ").lower()
         if cmd == "help":
-            print(Fore.LIGHTCYAN_EX+"------------------------------"+Fore.LIGHTRED_EX+"HELP"+Fore.LIGHTCYAN_EX+"------------------------------"+Fore.RESET)
+            print(Fore.LIGHTCYAN_EX+"------------------------------|"+Fore.LIGHTRED_EX+"HELP"+Fore.LIGHTCYAN_EX+"|------------------------------"+Fore.RESET)
             result = help()
             for line in result:
                 print(line)
+        elif cmd == "restart":
+            os.system(f"python {path}\\main.py")
+        elif cmd == "copyright":
+            print(copyright)
+        elif cmd == "credits":
+            for user in credits:
+                print(user)
+        elif cmd == "exit":
+            sys.exit(0)
+
 
 
 
