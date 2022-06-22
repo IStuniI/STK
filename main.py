@@ -62,7 +62,7 @@ def update():
                 print(succes+" Downloaded! Cloning...")
                 os.system("rmdir /S /Q C:\STK\\bin\STK")
                 os.system("del /f /s /q C:\STK\\bin\STK")
-                os.system("mkdir C:\STK\\bin\STK\\asset")
+                #os.system("mkdir C:\STK\\bin\STK\\asset")
                 file_names = os.listdir("C:\STK\\bin\STKUP")
                 for file_name in file_names:
                     if file_name != ".git":
