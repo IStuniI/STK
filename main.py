@@ -73,8 +73,11 @@ def update():
                     os.system("cls")
                     print(succes+" Cloned! Cleaning up...")
                     os.system("del /f /s /q C:\STK\\bin\STKUP")
+                    os.system("cls")
+                    os.system("cls")
                     print(succes+" Successfully updated! Restarting...")
                     os.system(f"python3 {path}\\main.py")
+                    os.system("cls")
                 except:
                     print(error+" Error while updating!Please try again later!")
 
