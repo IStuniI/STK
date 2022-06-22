@@ -1,10 +1,8 @@
 import os
 import base64
 import sys
-from importlib_metadata import version
 import requests
-
-
+import shutil
  
 #functions
 def install_pkg(pkg):
@@ -56,9 +54,16 @@ def update():
             if cmd == "y":
                 os.system("cls")
                 print(succes+" Downloading...")
-                os.system("git clone https://github.com/IStuniI/STK.git STK")
+                os.system("git clone https://github.com/IStuniI/STK.git C:\STK\\bin\STKUP")
                 os.system("cls")
-                print(succes+" Downloaded! Restarting...")
+                print(succes+" Downloaded! Cloning...")
+                file_names = os.listdir("C:\STK\\bin\STKUP")
+                for file_name in file_names:
+                    #overwrite the old files
+                    if file_name != "STK":
+                        shutil.move("C:\STK\\bin\STKUP\\"+file_name, "C:\STK\\bin\\STK\\"+file_name)
+                os.system("cls")
+                print(succes+" Successfully updated! Restarting...")
                 os.system(f"python3 {path}\\main.py")
             elif cmd == "n":
                 print(succes+" Not updating...")
