@@ -52,28 +52,32 @@ def update():
             print("Do you want to update? (y/n)")
             cmd = input(inputpre+" ").lower()
             if cmd == "y":
-                os.system("cls")
-                print(succes+" Downloading...")
-                print(succes+" Cleaning...")
-                os.system("rmdir /S /Q C:\STK\\bin\STKUP")
-                os.system("del /f /s /q C:\STK\\bin\STKUP")
-                os.system("git clone https://github.com/IStuniI/STK.git C:\STK\\bin\STKUP")
-                os.system("cls")
-                print(succes+" Downloaded! Cloning...")
-                os.system("rmdir /S /Q C:\STK\\bin\STK")
-                os.system("del /f /s /q C:\STK\\bin\STK") 
-                os.system("mkdir C:\STK\\bin\STK\\asset")
-                file_names = os.listdir("C:\STK\\bin\STKUP")
-                for file_name in file_names:
-                    if file_name != ".git":
-                        if not file_name == "asset":
-                            shutil.copy("C:\STK\\bin\STKUP\\"+file_name, "C:\STK\\bin\STK\\"+file_name)
-                            print(succes+" Cloned "+file_name)
-                os.system("cls")
-                print(succes+" Cloned! Cleaning up...")
-                os.system("del /f /s /q C:\STK\\bin\STKUP")
-                print(succes+" Successfully updated! Restarting...")
-                os.system(f"python3 {path}\\main.py")
+                try:
+                    os.system("cls")
+                    print(succes+" Downloading...")
+                    print(succes+" Cleaning...")
+                    os.system("rmdir /S /Q C:\STK\\bin\STK")
+                    os.system("del /f /s /q C:\STK\\bin\STK")
+                    os.system("git clone https://github.com/IStuniI/STK.git C:\STK\\bin\STK")
+                    os.system("cls")
+                    # print(succes+" Downloaded! Cloning...")
+                    # os.system("rmdir /S /Q C:\STK\\bin\STK")
+                    # os.system("del /f /s /q C:\STK\\bin\STK") 
+                    # os.system("mkdir C:\STK\\bin\STK\\asset")
+                    # file_names = os.listdir("C:\STK\\bin\STKUP")
+                    # for file_name in file_names:
+                    #     if file_name != ".git":
+                    #         if not file_name == "asset":
+                    #             shutil.copy("C:\STK\\bin\STKUP\\"+file_name, "C:\STK\\bin\STK\\"+file_name)
+                    #             print(succes+" Cloned "+file_name)
+                    os.system("cls")
+                    print(succes+" Cloned! Cleaning up...")
+                    os.system("del /f /s /q C:\STK\\bin\STKUP")
+                    print(succes+" Successfully updated! Restarting...")
+                    os.system(f"python3 {path}\\main.py")
+                except:
+                    print(error+" Error while updating!Please try again later!")
+
             elif cmd == "n":
                 print(succes+" Not updating...")
         else:
