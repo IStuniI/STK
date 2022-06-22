@@ -23,6 +23,7 @@ print(path)
 os.system("cls")
 version = open(path+"\\asset\\version.stk", "r").read().split("\n")[0]
 
+
  
 #other imports
 try:
@@ -37,10 +38,10 @@ succes = Fore.CYAN+"["+Fore.LIGHTGREEN_EX+"+"+Fore.CYAN+"]"+Fore.RESET
 error = Fore.CYAN+"["+Fore.LIGHTRED_EX+"-"+Fore.CYAN+"]"+Fore.RESET
 warning = Fore.CYAN+"["+Fore.LIGHTYELLOW_EX+"!"+Fore.CYAN+"]"+Fore.RESET
 inputpre = Fore.CYAN+"["+Fore.GREEN+"$"+Fore.CYAN+"]"+Fore.RESET+"|>>>"
+found_pre = Fore.LIGHTCYAN_EX+"["+Fore.LIGHTMAGENTA_EX+"#"+Fore.LIGHTCYAN_EX+"]"+Fore.RESET+" "
 
 
 #built-in commands
-
 
 def update():
     url = requests.get(update_url)
@@ -62,7 +63,6 @@ def update():
                     os.system("cls")
                     os.system("cls")
                     print(succes+" Cloned! Cleaning up...")
-                    os.system("del /f /s /q C:\STK\\bin\STKUP")
                     os.system("cls")
                     os.system("cls")
                     print(succes+" Successfully updated! Restarting...")
@@ -78,6 +78,16 @@ def update():
         
     else:
         print(error+" Update failed!")
+
+def check_setting(setting):
+    with open("C:\\STK\\bin\\STK\\asset\\settings.stk", "rb") as f:
+        lines = [x.decode('utf8').strip() for x in f.readlines()]
+        for line in lines:
+            if setting in line:
+                line.split("=")[1]
+                return line.split("=")[1].lower()
+
+
 
 def help():
     #try: 
@@ -120,6 +130,44 @@ def main():
                 print(user)
         elif cmd == "exit":
             sys.exit(0)
+        elif cmd == "update":
+            update()
+        elif cmd == "clear":
+            os.system("cls")
+        elif cmd == "cls":
+            os.system("cls")
+        elif cmd == "tools":
+            print(Fore.LIGHTCYAN_EX+"------------------------------|"+Fore.LIGHTRED_EX+"TOOLS"+Fore.LIGHTCYAN_EX+"|------------------------------"+Fore.RESET)
+            tools = os.listdir(path+"\\Tools")
+            for tool in tools:
+                if open(path+"\\Tools\\"+tool, "r").read().split("\n")[0].startswith("#"):
+                    desc = open(path+"\\Tools\\"+tool, "r").read().split("\n")[0].replace("#", "")
+                    print(found_pre+tool.split(".")[0] +" - "+desc)
+
+        elif cmd.startswith("cmd:"):
+            cmd = cmd.replace("cmd:", "")
+            os.system(cmd)
+
+
+
+
+
+
+
+        else:
+            if os.path.exists(path+"\\Tools\\"+cmd+".py"):
+                if check_setting("openexternwindow") == "true":
+                    try:
+                        os.system(f"start {path}\\Tools\\{cmd}.py")
+                    except KeyboardInterrupt:
+                        main()
+                else:
+                    try:
+                        os.system(f"python {path}\\Tools\\{cmd}.py")
+                    except KeyboardInterrupt:
+                        main()
+            else:
+                print(error+" Unknown command!")
 
 
 
