@@ -57,7 +57,7 @@ def update():
                 os.system("git clone https://github.com/IStuniI/STK.git C:\STK\\bin\STKUP")
                 os.system("cls")
                 print(succes+" Downloaded! Cloning...")
-                #delete old files
+                os.system("rmdir /S /Q C:\STK\\bin\STK")
                 os.system("del /f /s /q C:\STK\\bin\STK")
                 file_names = os.listdir("C:\STK\\bin\STKUP")
                 for file_name in file_names:
