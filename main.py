@@ -60,16 +60,6 @@ def update():
                     os.system("del /f /s /q C:\STK\\bin\STK")
                     os.system("git clone https://github.com/IStuniI/STK.git C:\STK\\bin\STK")
                     os.system("cls")
-                    # print(succes+" Downloaded! Cloning...")
-                    # os.system("rmdir /S /Q C:\STK\\bin\STK")
-                    # os.system("del /f /s /q C:\STK\\bin\STK") 
-                    # os.system("mkdir C:\STK\\bin\STK\\asset")
-                    # file_names = os.listdir("C:\STK\\bin\STKUP")
-                    # for file_name in file_names:
-                    #     if file_name != ".git":
-                    #         if not file_name == "asset":
-                    #             shutil.copy("C:\STK\\bin\STKUP\\"+file_name, "C:\STK\\bin\STK\\"+file_name)
-                    #             print(succes+" Cloned "+file_name)
                     os.system("cls")
                     print(succes+" Cloned! Cleaning up...")
                     os.system("del /f /s /q C:\STK\\bin\STKUP")
