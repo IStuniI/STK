@@ -10,7 +10,7 @@ def install_pkg(pkg):
 
 #VARS
 author = "Stein#7722"
-update_url = "https://raw.githubusercontent.com/IStuniI/STK/main/Bin/version.stk"
+update_url = "https://raw.githubusercontent.com/IStuniI/STK/main/asset/version.stk"
 #BOOT
 path = "C:\STK\\bin\STK"
 packages = ["colorama"]
@@ -23,7 +23,7 @@ print(path)
 os.system("cls")
 version = open(path+"\\asset\\version.stk", "r").read().split("\n")[0]
 
-
+ 
 #other imports
 try:
     import colorama
@@ -61,9 +61,12 @@ def update():
                 os.system("del /f /s /q C:\STK\\bin\STK")
                 file_names = os.listdir("C:\STK\\bin\STKUP")
                 for file_name in file_names:
-                    shutil.move("C:\STK\\bin\STKUP\\"+file_name, "C:\STK\\bin\STK")
-                    print(succes+" Cloned "+file_name)
+                    if file_name != ".git":
+                        shutil.move("C:\STK\\bin\STKUP\\"+file_name, "C:\STK\\bin\STK")
+                        print(succes+" Cloned "+file_name)
                 os.system("cls")
+                print(succes+" Cloned! Cleaning up...")
+                os.system("del /f /s /q C:\STK\\bin\STKUP")
                 print(succes+" Successfully updated! Restarting...")
                 os.system(f"python3 {path}\\main.py")
             elif cmd == "n":
@@ -105,7 +108,7 @@ def main():
             print(Fore.LIGHTCYAN_EX+"------------------------------|"+Fore.LIGHTRED_EX+"HELP"+Fore.LIGHTCYAN_EX+"|------------------------------"+Fore.RESET)
             result = help()
             for line in result:
-                print(line)
+                print(line) 
         elif cmd == "restart":
             os.system(f"python {path}\\main.py")
         elif cmd == "copyright":
