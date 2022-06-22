@@ -12,7 +12,7 @@ def install_pkg(pkg):
 
 #VARS
 author = "Stein#7722"
-update_url = ""
+update_url = "https://raw.githubusercontent.com/IStuniI/STK/main/Bin/version.stk"
 #BOOT
 path = "C:\STK\\bin\STK"
 packages = ["colorama"]
@@ -45,7 +45,28 @@ inputpre = Fore.CYAN+"["+Fore.GREEN+"$"+Fore.CYAN+"]"+Fore.RESET+"|>>>"
 
 
 def update():
-    url = requests.get
+    url = requests.get(update_url)
+    if url.status_code == 200:
+        os.system("cls")
+        print(succes+" Checking for updates...")
+        if version != url.text:
+            print(succes+" Update found! New version: "+url.text + "You are running version: "+version)
+            print("Do you want to update? (y/n)")
+            cmd = input(inputpre+" ").lower()
+            if cmd == "y":
+                os.system("cls")
+                print(succes+" Downloading...")
+                os.system("git clone https://github.com/IStuniI/STK.git STK")
+                os.system("cls")
+                print(succes+" Downloaded! Restarting...")
+                os.system(f"python3 {path}\\main.py")
+            elif cmd == "n":
+                print(succes+" Not updating...")
+        else:
+            print(succes+" No updates found!")
+        
+    else:
+        print(error+" Update failed!")
 
 def help():
     #try: 
@@ -65,6 +86,8 @@ copyright = '''© 2022 Stein#7722 - All Rights Reserved.'''
 credits = ["Founder/Programmer: Stein#7722"]
 #MAIN
 def main():
+    update()
+    os.system("cls")
     os.system("mode con cols=100 lines=25")
     os.system("title STEINS TOOLKIT [STK]")
     print(Back.LIGHTRED_EX+Fore.BLACK+"STEIN'S TOOLKIT"+Back.RESET+Fore.CYAN+" v"+version+Fore.RESET+ " - "+Fore.LIGHTMAGENTA_EX+author+Fore.LIGHTYELLOW_EX+" (C) STK STEIN ALL RIGHTS RESERVED | "+Fore.RESET + path)
