@@ -21,7 +21,7 @@ for pkg in packages:
     os.system("cls")
 print(path)
 os.system("cls")
-version = open(path+"\\Bin\\version.stk", "r").read()
+version = open(path+"\\asset\\version.stk", "r").read()
 
 
 #other imports
@@ -75,7 +75,7 @@ def update():
 
 def help():
     #try: 
-    with open(path+"\\Bin\\help.stk", "rb") as f:
+    with open(path+"\\asset\\help.stk", "rb") as f:
         lines = [x.decode('utf8').strip() for x in f.readlines()]
         result = []
         for line in lines:
