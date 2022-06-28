@@ -1,13 +1,23 @@
 import os
 import base64
 import sys
+from time import sleep
 import requests
-import shutil
+
  
 #functions
+
 def install_pkg(pkg):
     os.system("pip3 install " + pkg)
-
+    os.system("cls")
+    os.system("python3 -m pip install " + pkg)
+def check_setting(setting):
+    with open("C:\\STK\\bin\\STK\\asset\\settings.stk", "rb") as f:
+        lines = [x.decode('utf8').strip() for x in f.readlines()]
+        for line in lines:
+            if setting in line:
+                line.split("=")[1]
+                return line.split("=")[1].lower()
 #VARS
 author = "Stein#7722"
 update_url = "https://raw.githubusercontent.com/IStuniI/STK/main/asset/version.stk"
@@ -16,12 +26,23 @@ path = "C:\STK\\bin\STK"
 packages = ["colorama"]
 print("Installing")
 #   install the packages
-for pkg in packages:
-    install_pkg(pkg)
-    os.system("cls")
-print(path)
+if not check_setting("fastboot") == "true":
+    for pkg in packages:
+        install_pkg(pkg)
+        os.system("cls")
+    print(path)
 os.system("cls")
 version = open(path+"\\asset\\version.stk", "r").read().split("\n")[0]
+def check_tos():
+    if os.path.isfile("C:\\STK\\bin\\STK\\contract.stk"):
+        with open("C:\\STK\\bin\\STK\\contract.stk", "rb") as f:
+            lines = [x.decode('utf8').strip() for x in f.readlines()]
+            #check last line
+            if lines[-1].split(":")[1].lower() == "true":
+                return True
+    else:
+        print(error+" Cant find contract.stk")
+        return False
 
 
  
@@ -42,6 +63,21 @@ found_pre = Fore.LIGHTCYAN_EX+"["+Fore.LIGHTMAGENTA_EX+"#"+Fore.LIGHTCYAN_EX+"]"
 
 
 #built-in commands
+if not check_tos():
+    print(error+" You have to accept the terms of service!")
+    print(error+" Please accept the terms of service by typing 'accept:true' in the file 'asset\\contract.stk'")
+    sys.exit()
+def progressbar(it, prefix="", size=60, out=sys.stdout): # Python3.3+
+    count = len(it)
+    def show(j):
+        x = int(size*j/count)
+        print("{}[{}{}] {}/{}".format(prefix, Fore.LIGHTGREEN_EX+"#"*x, Fore.CYAN+"."*(size-x), j, count), 
+                end='\r', file=out, flush=True)
+    show(0)
+    for i, item in enumerate(it):
+        yield item
+        show(i+1)
+    print("\n", flush=True, file=out)
 
 def update():
     url = requests.get(update_url)
@@ -78,17 +114,6 @@ def update():
         
     else:
         print(error+" Update failed!")
-
-def check_setting(setting):
-    with open("C:\\STK\\bin\\STK\\asset\\settings.stk", "rb") as f:
-        lines = [x.decode('utf8').strip() for x in f.readlines()]
-        for line in lines:
-            if setting in line:
-                line.split("=")[1]
-                return line.split("=")[1].lower()
-
-
-
 def help():
     #try: 
     with open(path+"\\asset\\help.stk", "rb") as f:
@@ -107,7 +132,8 @@ copyright = '''© 2022 Stein#7722 - All Rights Reserved.'''
 credits = ["Founder/Programmer: Stein#7722"]
 #MAIN
 def main():
-    update()
+    if not check_setting("fastboot") == "true":
+        update()
     os.system("cls")
     os.system("mode con cols=100 lines=25")
     os.system("title STEINS TOOLKIT [STK]")
@@ -130,30 +156,64 @@ def main():
                 print(user)
         elif cmd == "exit":
             sys.exit(0)
+        elif cmd == "discord":
+            os.system("start https://discord.gg/vxRvsjZ537")
         elif cmd == "update":
             update()
+        elif cmd == "load":
+            for i in progressbar(range(100), Fore.LIGHTCYAN_EX+"Loading: "+Fore.CYAN, 40):
+                sleep(0.1)
         elif cmd == "clear":
             os.system("cls")
         elif cmd == "cls":
             os.system("cls")
+        elif cmd.startswith("encrypt"):
+            cmd = cmd.split(" ")
+            if not len(cmd) >= 2:
+                print(waiting+" Usage: encrypt <de/en crypt> <text or file> ")
+            else:
+                if check_setting("openexternwindow") == "true":
+                    try:
+                        os.system(f"start {path}\\asset\\encryptor.py {cmd[1]} {cmd[2]}")
+                    except KeyboardInterrupt:
+                        main()
+                else:
+                    try:
+                        os.system(f"python {path}\\asset\\encryptor.py {cmd[1]} {cmd[2]}")
+                    except KeyboardInterrupt:
+                        main()
+
+        elif cmd == "stknetwork":
+            if check_setting("openexternwindow") == "true":
+                try:
+                    os.system(f"start {path}\\asset\\stknetwork.py")
+                except KeyboardInterrupt:
+                    main()
+            else:
+                try:
+                    os.system(f"python {path}\\asset\\stknetwork.py")
+                except KeyboardInterrupt:
+                    main()
+
+
+
+
         elif cmd == "tools":
             print(Fore.LIGHTCYAN_EX+"------------------------------|"+Fore.LIGHTRED_EX+"TOOLS"+Fore.LIGHTCYAN_EX+"|------------------------------"+Fore.RESET)
             tools = os.listdir(path+"\\Tools")
             for tool in tools:
-                if open(path+"\\Tools\\"+tool, "r").read().split("\n")[0].startswith("#"):
-                    desc = open(path+"\\Tools\\"+tool, "r").read().split("\n")[0].replace("#", "")
-                    print(found_pre+tool.split(".")[0] +" - "+desc)
+                if not os.path.isdir(path+"\\Tools\\"+tool):
+                    try:
+                        if open(path+"\\Tools\\"+tool, "r").read().split("\n")[0].startswith("#"):
+                            desc = open(path+"\\Tools\\"+tool, "r").read().split("\n")[0].replace("#", "")
+                            print(found_pre+tool.split(".")[0] +" - "+desc)
+                    except:
+                        pass
+
 
         elif cmd.startswith("cmd:"):
             cmd = cmd.replace("cmd:", "")
             os.system(cmd)
-
-
-
-
-
-
-
         else:
             if os.path.exists(path+"\\Tools\\"+cmd+".py"):
                 if check_setting("openexternwindow") == "true":
@@ -173,11 +233,11 @@ def main():
 
 
 
-
-main()
-
-
-
-
+try:
+    main()
+except KeyboardInterrupt:
+    print(error+" KeyboardInterrupt!")
+    sleep(1)
+    main()
 
 os.system("PAUSE")
